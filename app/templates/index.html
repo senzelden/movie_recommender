@@ -1,33 +1,38 @@
 {% extends "_base.html" %}
 {% block content %}
 
-    <h1> Welcome to my site! </h1>
+    <h1> Welcome to the Movie Recommender! </h1>
 
     <form action="/recommendation" method="get">
 
-      <p> Please select your preferred genre. </p>
+      <!-- <p> Please select your preferred genre. </p>
 
       <select name="genre">
         <option value="action">Action</option>
         <option value="drama">Drama</option>
         <option value="horror">Horror</option>
         <option value="scifi">Sci-Fi</option>
-      </select>
+      </select> -->
 
-      <p>Provide ratings for some movies</p>
+      <p>Rate those ten popular movies:</p>
 
-      <input type="text" name="movie1"
-      value="{{choices[0]}}">
+      <p>Movie 1</p>
       <input type="text" name="rating1"
       placeholder="0.0 - 5.0">
       <br>
-      <input type="text" name="movie2"
-      value="{{choices[1]}}">
+      <p>Movie 2</p>
       <input type="text" name="rating2"
       placeholder="0.0 - 5.0">
       <br>
-      <input type="text" name="movie3"
-      value="{{choices[2]}}">
+      <p>Movie 3</p>
+      <input type="text" name="rating3"
+      placeholder="0.0 - 5.0">
+      <br>
+      <p>Movie 4</p>
+      <input type="text" name="rating3"
+      placeholder="0.0 - 5.0">
+      <br>
+      <p>Movie 5</p>
       <input type="text" name="rating3"
       placeholder="0.0 - 5.0">
       <br>
@@ -35,8 +40,5 @@
       <input type="submit">
 
     </form>
-
-
-    <a href="/recommendation"> Click here to see some awesome movies! </a>
 
 {% endblock %}
