@@ -1,13 +1,13 @@
 import numpy as np
 import pandas as pd
-from sklearn.decomposition import NMF
+from joblib import load
 
 
 def nmf_recommender(user_ratings=(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)):
     """returns movie recommendations dictionary with movie titles and predicted ratings based on nmf model"""
     # Read the data
-    movies = pd.read_csv("../data/ml-latest-small/movies.csv")
-    ratings = pd.read_csv("../data/ml-latest-small/ratings.csv")
+    movies = pd.read_csv("data/ml-latest-small/movies.csv")
+    ratings = pd.read_csv("data/ml-latest-small/ratings.csv")
 
     # Create Rtrue
     df = pd.merge(ratings, movies, "outer", on="movieId")
@@ -15,10 +15,8 @@ def nmf_recommender(user_ratings=(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)):
     rtrue = rtrue.pivot(index=rtrue.index, columns="movieId").copy()
     rtrue_fill = rtrue.fillna(2.5).copy()
 
-    # Run model
-    m = NMF(12)
-    m.fit(rtrue_fill)  # Slowest part of the code
-
+    # Load trained model
+    m = load('../data/nmf_model.joblib')
     P = m.components_
     # Q = m.transform(rtrue_fill)
 
