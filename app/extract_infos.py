@@ -3,7 +3,7 @@ from credentials import APIKEY, PG_PASSWORD, PG_USER, PG_URL
 from sqlalchemy import create_engine, text
 
 
-def omdb_extract(imdb_id, info_type='Full'):
+def omdb_extract(imdb_id, info_type="Full"):
     """
     returns infos from omdb API
 
@@ -15,10 +15,10 @@ def omdb_extract(imdb_id, info_type='Full'):
     response = requests.get(f"http://www.omdbapi.com/?i=tt{imdb_id}&apikey={APIKEY}")
     if response.status_code == 200:
         movie_dict = response.json()
-        if info_type == 'Poster':
-            return movie_dict['Poster']
-        elif info_type == 'Ratings':
-            return movie_dict['Ratings']
+        if info_type == "Poster":
+            return movie_dict["Poster"]
+        elif info_type == "Ratings":
+            return movie_dict["Ratings"]
     else:
         movie_dict = {}
     return movie_dict
@@ -26,8 +26,8 @@ def omdb_extract(imdb_id, info_type='Full'):
 
 def postgres_extract(movie_id):
     """returns tuple (movie_id, title, genre, avg_rating, total_ratings, imdb_id) from postgres"""
-    conns = f'postgres://{PG_USER}:{PG_PASSWORD}@{PG_URL}/movie_recommender'
-    db = create_engine(conns, encoding='UTF-8', echo=False)
+    conns = f"postgres://{PG_USER}:{PG_PASSWORD}@{PG_URL}/movie_recommender"
+    db = create_engine(conns, encoding="UTF-8", echo=False)
     query = """
     SELECT movies.movie_id, movies.title, movies.genre, round(avg(ratings.rating)::numeric,2) AS avg_rating, count(ratings.rating) AS ratings_total, links.imdbid
 	FROM movies
@@ -40,6 +40,6 @@ def postgres_extract(movie_id):
     return row
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(omdb_extract(4073790))
     print(postgres_extract(414))
