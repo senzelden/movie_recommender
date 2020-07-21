@@ -26,6 +26,11 @@ def recommend():
     movies = random_recommend(MOVIES, 5)
     return render_template('recommendation.html', movies=recommendations, input=user_input)
 
+@app.route('/recommendation_test')
+def recommend_test():
+    user_rating = dict(request.args)
+    return render_template('recommendation_test.html', user_rating=user_rating)
+
 
 if __name__ == '__main__':
     # if i run "python application.py", please run the following code

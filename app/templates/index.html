@@ -3,7 +3,7 @@
 
     <h1> Welcome to the Movie Recommender! </h1>
 
-    <form action="/recommendation" method="get">
+    <form action="/recommendation_test" method="get">
 
       <!-- <p> Please select your preferred genre. </p>
 
@@ -17,23 +17,57 @@
       <p>Rate those ten popular movies:</p>
 
       <p>Movie 1</p>
-      <input type="text" name="rating1"
-      placeholder="0.0 - 5.0">
+      <input type="radio" id="r1" name="rating1" value="1">
+      <label for="r1">1</label><br>
+      <input type="radio" id="r2" name="rating1" value="2">
+      <label for="r2">2</label><br>
+      <input type="radio" id="r3" name="rating1" value="3">
+      <label for="r3">3</label><br>
+      <input type="radio" id="r4" name="rating1" value="4">
+      <label for="r4">4</label><br>
+      <input type="radio" id="r5" name="rating1" value="5">
+      <label for="r5">5</label><br>
       <br>
+
       <p>Movie 2</p>
-      <input type="text" name="rating2"
-      placeholder="0.0 - 5.0">
+      <label for="slider">Rating (between 0 and 5):</label>
+      <input type="range" id="slider" name="rating2" min="0" max="5" value="0">
       <br>
+
       <p>Movie 3</p>
-      <input type="text" name="rating3"
-      placeholder="0.0 - 5.0">
+      <label>Not my taste...</label>
+      <input type="range" id="slider" name="rating3" min="0" max="5" value="0">
+      <label>One of my favorites!!!</label>
       <br>
+
       <p>Movie 4</p>
-      <input type="text" name="rating3"
+      <label>Not my taste...</label>
+      <input type="range" id="slider" name="rating4" min="0" max="50" value="25">
+      <label>One of my favorites!!!</label>
+      <br>
+
+      <p>Movie 5</p>
+      <input type="text" name="rating5"
       placeholder="0.0 - 5.0">
       <br>
-      <p>Movie 5</p>
-      <input type="text" name="rating3"
+      <p>Movie 6</p>
+      <input type="text" name="rating6"
+      placeholder="0.0 - 5.0">
+      <br>
+      <p>Movie 7</p>
+      <input type="text" name="rating7"
+      placeholder="0.0 - 5.0">
+      <br>
+      <p>Movie 8</p>
+      <input type="text" name="rating8"
+      placeholder="0.0 - 5.0">
+      <br>
+      <p>Movie 9</p>
+      <input type="text" name="rating9"
+      placeholder="0.0 - 5.0">
+      <br>
+      <p>Movie 10</p>
+      <input type="text" name="rating10"
       placeholder="0.0 - 5.0">
       <br>
       <br>
