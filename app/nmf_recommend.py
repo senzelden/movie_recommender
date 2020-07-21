@@ -6,8 +6,8 @@ from joblib import load
 def nmf_recommender(user_ratings=(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)):
     """returns movie recommendations dictionary with movie titles and predicted ratings based on nmf model"""
     # Read the data
-    movies = pd.read_csv("data/ml-latest-small/movies.csv")
-    ratings = pd.read_csv("data/ml-latest-small/ratings.csv")
+    movies = pd.read_csv("../data/ml-latest-small/movies.csv")
+    ratings = pd.read_csv("../data/ml-latest-small/ratings.csv")
 
     # Create Rtrue
     df = pd.merge(ratings, movies, "outer", on="movieId")
