@@ -3,6 +3,31 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .column {
+        float: left;
+        width: 20%;
+        padding: 10px;
+      }
+
+      /* Clearfix (clear floats) */
+      .row::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+
+      /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+      @media screen and (max-width: 150px) {
+        .column {
+          width: 100%;
+        }
+      }
+    </style>
     <meta charset="utf-8">
     <title> Movie Recommender </title>
   </head>
