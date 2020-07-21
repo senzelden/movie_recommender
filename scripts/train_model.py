@@ -18,7 +18,7 @@ def train_model():
     # Run model
     m = NMF(12)
     m.fit(rtrue_fill)  # Slowest part of the code
-    dump(m, '../data/nmf_model.joblib')
+    dump(m, "../data/nmf_model.joblib")
 
 
 if __name__ == "__main__":

@@ -16,7 +16,7 @@ def nmf_recommender(user_ratings=(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)):
     rtrue_fill = rtrue.fillna(2.5).copy()
 
     # Load trained model
-    m = load('../data/nmf_model.joblib')
+    m = load("../data/nmf_model.joblib")
     P = m.components_
     # Q = m.transform(rtrue_fill)
 
