@@ -24,7 +24,7 @@ def recommend():
 
 
     movies = random_recommend(MOVIES, 5)
-    return render_template('recommendation.html', movies=movies, input=recommendations)
+    return render_template('recommendation.html', movies=recommendations, input=user_input)
 
 
 if __name__ == '__main__':
