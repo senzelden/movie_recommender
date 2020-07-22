@@ -10,7 +10,7 @@ def nmf_recommender(user_input):
     ratings = pd.read_csv("../data/ml-latest-small/ratings.csv")
 
     # Create Rtrue
-    df = pd.merge(ratings, movies, "outer", on="movieId")
+    df = pd.merge(ratings, movies, how="left", on="movieId")
     rtrue = df[["userId", "movieId", "rating"]].set_index("userId")
     rtrue = rtrue.pivot(index=rtrue.index, columns="movieId").copy()
     rtrue_fill = rtrue.fillna(2.5).copy()
@@ -21,7 +21,7 @@ def nmf_recommender(user_input):
     # Q = m.transform(rtrue_fill)
 
     # Initiate new_user
-    new_user = [2.5] * 9742
+    new_user = [2.5] * 9724
 
     # Example ratings
     landing_page_movies = [

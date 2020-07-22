@@ -16,11 +16,11 @@ def train_model(n_features=20, fill_method='KNNimputer', fill_value=2.5):
     fill_value (optional): if 'single_value' is used as fill_method, fill_value can be set manually (e.g. 0, 2.5, 3)
     """
     # Read the data
-    movies = pd.read_csv("data/ml-latest-small/movies.csv")
-    ratings = pd.read_csv("data/ml-latest-small/ratings.csv")
+    movies = pd.read_csv("../data/ml-latest-small/movies.csv")
+    ratings = pd.read_csv("../data/ml-latest-small/ratings.csv")
 
     # Create Rtrue
-    df = pd.merge(ratings, movies, "outer", on="movieId")
+    df = pd.merge(ratings, movies, how="left", on="movieId")
     rtrue = df[["userId", "movieId", "rating"]].set_index("userId")
     rtrue = rtrue.pivot(index=rtrue.index, columns="movieId").copy()
     if fill_method == 'KNNimputer':
