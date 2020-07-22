@@ -41,7 +41,7 @@ def nmf_recommender(user_input):
     for film in landing_page_movies:
         indices.append(rtrue_fill.columns.get_loc(film))
     for i, indices_value in enumerate(indices):
-        if user_input[f"seen{i + 1}"]:
+        if f"seen{i + 1}" in user_input.keys():
             new_user[indices_value] = user_input[f"rating{i + 1}"]
     new_user_final = np.array([new_user])
 

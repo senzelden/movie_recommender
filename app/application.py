@@ -19,7 +19,7 @@ def hello(name):
 def recommend():
 
     user_input = dict(request.args)
-    recommendations = nmf_recommender()  # at a later point nmf_recommender would take in user_input
+    recommendations = nmf_recommender(user_input)
     """Here is where you take the user input dictionary and pre-process it and use it for the recommendation f"""
 
 
