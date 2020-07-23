@@ -44,7 +44,7 @@ def nmf_recommender(user_input):
         indices.append(rtrue_fill.columns.get_loc(film))
     for i, indices_value in enumerate(indices):
         if f"seen{i + 1}" in user_input.keys():
-            new_user[indices_value] = int(user_input[f"rating{i + 1}"]) / 10
+            new_user[indices_value] = int(user_input[f"rating{i + 1}"]) * 10
     new_user_final = np.array([new_user])
 
     # Get recommendations for user
@@ -57,7 +57,6 @@ def nmf_recommender(user_input):
     clean_recommendations = {}
     for index, score in recommendations.items():
         if (index not in landing_page_movies) and (len(clean_recommendations) < 3):
-            # movies[movies.movieId == index].title.values[0]
             clean_recommendations[index] = {"nmf_score": round(score, 2)}
     return clean_recommendations
 

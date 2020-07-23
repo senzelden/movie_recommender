@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from nmf_recommend import nmf_recommender
+from spiced_recommender import Recommender
 from extract_infos import omdb_extract, postgres_extract
 
 
@@ -28,8 +29,9 @@ def movie_details(movie_id):
 def recommend():
     user_input = dict(request.args)
 
-    recommendations = nmf_recommender(user_input)
-    print(recommendations)
+    # recommendations = nmf_recommender(user_input)
+    recommender = Recommender(user_input)
+    recommendations = recommender.nmf()
     for recommended_movie_id in recommendations.keys():
         postgres_infos = postgres_extract(recommended_movie_id)
         imdb_id = postgres_infos[-1]
