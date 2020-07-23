@@ -54,7 +54,7 @@ def nmf_recommender(user_input):
     recommendations = new_result.iloc[0].sort_values(ascending=False)[:20].to_dict()
     clean_recommendations = {}
     for index, score in recommendations.items():
-        if index not in landing_page_movies:
+        if (index not in landing_page_movies) and (len(clean_recommendations) < 3):
             # movies[movies.movieId == index].title.values[0]
             clean_recommendations[index] = {"nmf_score": round(score, 2)}
     return clean_recommendations
