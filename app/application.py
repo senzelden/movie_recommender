@@ -27,7 +27,9 @@ def movie_details(movie_id):
 @app.route("/recommendation")
 def recommend():
     user_input = dict(request.args)
+
     recommendations = nmf_recommender(user_input)
+    print(recommendations)
     for recommended_movie_id in recommendations.keys():
         postgres_infos = postgres_extract(recommended_movie_id)
         imdb_id = postgres_infos[-1]

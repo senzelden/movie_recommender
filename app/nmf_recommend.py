@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from sklearn.impute import KNNImputer
 from joblib import load
 
 
@@ -13,7 +14,8 @@ def nmf_recommender(user_input):
     df = pd.merge(ratings, movies, how="left", on="movieId")
     rtrue = df[["userId", "movieId", "rating"]].set_index("userId")
     rtrue = rtrue.pivot(index=rtrue.index, columns="movieId").copy()
-    rtrue_fill = rtrue.fillna(2.5).copy()
+    imputer = KNNImputer(n_neighbors=5)
+    rtrue_fill = pd.DataFrame(imputer.fit_transform(rtrue), columns=rtrue.columns, index=rtrue.index)
 
     # Load trained model
     m = load("../data/nmf_model.joblib")
@@ -21,7 +23,7 @@ def nmf_recommender(user_input):
     # Q = m.transform(rtrue_fill)
 
     # Initiate new_user
-    new_user = [2.5] * 9724
+    new_user = [3.5] * 9724
 
     # Example ratings
     landing_page_movies = [
