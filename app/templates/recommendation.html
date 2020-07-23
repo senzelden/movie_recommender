@@ -2,7 +2,7 @@
 {% block content %}
 
     <div style= "margin: 50px auto;">
-    <h2>Here is what you should watch</h2>
+    <h3>Here is what you should watch</h3>
     </div>
 
       {% for id in movies %}
@@ -12,7 +12,7 @@
           <img src="{{ movies[id]['omdb_dict']['Poster'] }}" alt="Movie poster - {{ movies[id]['omdb_dict']['Title'] }}" height="100%">
         </a>
         <div class="movie_details">
-          <h3>{{ movies[id]['omdb_dict']['Title'] }}</h3>
+          <h4>{{ movies[id]['omdb_dict']['Title'] }}</h4>
           <p>{{ movies[id]['omdb_dict']['Genre'] }} <br>
           {{ movies[id]['omdb_dict']['Year'] }} | {{ movies[id]['omdb_dict']['Country'] }} </p>
           <p>Directed by {{ movies[id]['omdb_dict']['Director'] }} <br>
@@ -23,7 +23,7 @@
           {% for i in range(movies[id]['omdb_dict']['Ratings']|length) %}
           <div class="ratings">
             <p style="margin: 0 0 4px"> {{ movies[id]['omdb_dict']['Ratings'][i]['Source'] }} </p>
-            <p style="font-size: 24px; color: darkgrey"> {{ movies[id]['omdb_dict']['Ratings'][i]['Value'] }} </p>
+            <p style="font-size: 24px; color: #c5c6c7"> {{ movies[id]['omdb_dict']['Ratings'][i]['Value'] }} </p>
           </div>
           {% endfor %}
 
