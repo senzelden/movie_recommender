@@ -1,159 +1,145 @@
 {% extends "_base.html" %}
 {% block content %}
 
-    <h1> Welcome to the Movie Recommender! </h1>
+    <h1> Movie Recommender</h1>
 
-    <form action="/recommendation_test" method="get">
+      <h2>To get started, rate these movies if you have watched them before: </h2>
 
-      <!-- <p> Please select your preferred genre. </p>
+      <form action="/recommendation" method="get">
 
-      <select name="genre">
-        <option value="action">Action</option>
-        <option value="drama">Drama</option>
-        <option value="horror">Horror</option>
-        <option value="scifi">Sci-Fi</option>
-      </select> -->
-
-      <p>Rate those ten popular movies:</p>
-
-      <div class="row">
-
-        <div class="column">
-          <p>The Matrix</p>
+        <div class="poster">
+          <!-- <p>The Matrix</p> -->
           <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg" alt="Movie poster - Matrix" style="width:100%">
-          <br>
+          <div class="container">
           <input type="checkbox" id="seen_movie_box" name="seen1" value="True">
-          <label for="seen_movie_box">Do you know this movie?</label>
+          <label for="seen_movie_box">I know this movie and want to rate it.</label>
           <br>
           <label>No no!</label>
           <input type="range" id="slider" name="rating1" min="0" max="50" value="0">
           <label>Favorite!</label>
-          <br>
+          </div>
         </div>
 
-        <div class="column">
-          <p>Forrest Gump</p>
+        <div class="poster">
+          <!-- <p>Forrest Gump</p> -->
           <img src="https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" alt="Movie poster - Forrest Gump" style="width:100%">
-          <br>
+          <div class="container">
           <input type="checkbox" id="seen_movie_box" name="seen2" value="True">
           <label for="seen_movie_box">Do you know this movie?</label>
           <br>
           <label>No no!</label>
           <input type="range" id="slider" name="rating2" min="0" max="50" value="0">
           <label>Favorite!</label>
-          <br>
+          </div>
         </div>
 
-        <div class="column">
-          <p>The Shawshank Redemption</p>
+        <div class="poster">
+          <!-- <p>The Shawshank Redemption</p> -->
           <img src="https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg" alt="Movie poster - Shawshank Redemption" style="width:100%">
-          <br>
+          <div class="container">
           <input type="checkbox" id="seen_movie_box" name="seen3" value="True">
           <label for="seen_movie_box">Do you know this movie?</label>
           <br>
           <label>No no!</label>
           <input type="range" id="slider" name="rating3" min="0" max="50" value="0">
           <label>Favorite!</label>
-          <br>
+          </div>
         </div>
 
-      <div class="column">
-        <p>Rosemary's Baby</p>
+      <div class="poster">
+        <!-- <p>Rosemary's Baby</p> -->
         <img src="https://m.media-amazon.com/images/M/MV5BZmEwZGU2NzctYzlmNi00MGJkLWE3N2MtYjBlN2ZhMGJkZTZiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" alt="Movie poster - Rosemary's Baby" style="width:100%">
-        <br>
+        <div class="container">
         <input type="checkbox" id="seen_movie_box" name="seen4" value="True">
         <label for="seen_movie_box">Do you know this movie?</label>
         <br>
         <label>No no!</label>
         <input type="range" id="slider" name="rating4" min="0" max="50" value="0">
         <label>Favorite!</label>
-        <br>
+        </div>
       </div>
 
-      <div class="column">
-        <p>Singin' in the Rain</p>
+      <div class="poster">
+        <!-- <p>Singin' in the Rain</p> -->
         <img src="https://m.media-amazon.com/images/M/MV5BMWUyNjQ5MTAtNDJhYS00MWQ0LTk2ZTAtZmE4MWNlMjMwMzg3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg" alt="Movie poster - Singin' in the Rain" style="width:100%">
-        <br>
+        <div class="container">
         <input type="checkbox" id="seen_movie_box" name="seen5" value="True">
         <label for="seen_movie_box">Do you know this movie?</label>
         <br>
         <label>No no!</label>
         <input type="range" id="slider" name="rating5" min="0" max="50" value="0">
         <label>Favorite!</label>
-        <br>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-
-      <div class="column">
-        <p>Super Size Me</p>
+      <div class="poster">
+        <!-- <p>Super Size Me</p> -->
         <img src="https://m.media-amazon.com/images/M/MV5BMTYyOTk4MjIxOF5BMl5BanBnXkFtZTcwMzk1NTUyMQ@@._V1_SX300.jpg" alt="Movie poster - Super Size Me" style="width:100%">
-        <br>
+        <div class="container">
         <input type="checkbox" id="seen_movie_box" name="seen6" value="True">
         <label for="seen_movie_box">Do you know this movie?</label>
         <br>
         <label>No no!</label>
         <input type="range" id="slider" name="rating6" min="0" max="50" value="0">
         <label>Favorite!</label>
-        <br>
+        </div>
       </div>
 
-      <div class="column">
-        <p>Fight Club</p>
+      <div class="poster">
+        <!-- <p>Fight Club</p> -->
         <img src="https://m.media-amazon.com/images/M/MV5BMmEzNTkxYjQtZTc0MC00YTVjLTg5ZTEtZWMwOWVlYzY0NWIwXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg" alt="Movie poster - Fight Club" style="width:100%">
-        <br>
+        <div class="container">
         <input type="checkbox" id="seen_movie_box" name="seen7" value="True">
         <label for="seen_movie_box">Do you know this movie?</label>
         <br>
         <label>No no!</label>
         <input type="range" id="slider" name="rating7" min="0" max="50" value="0">
         <label>Favorite!</label>
-        <br>
+        </div>
       </div>
 
-      <div class="column">
-        <p>Up</p>
+      <div class="poster">
+        <!-- <p>Up</p> -->
         <img src="https://m.media-amazon.com/images/M/MV5BMTk3NDE2NzI4NF5BMl5BanBnXkFtZTgwNzE1MzEyMTE@._V1_SX300.jpg" alt="Movie poster - Up" style="width:100%">
-        <br>
+        <div class="container">
         <input type="checkbox" id="seen_movie_box" name="seen8" value="True">
         <label for="seen_movie_box">Do you know this movie?</label>
         <br>
         <label>No no!</label>
         <input type="range" id="slider" name="rating8" min="0" max="50" value="0">
         <label>Favorite!</label>
-        <br>
+        </div>
       </div>
 
-    <div class="column">
-      <p>The Lord of the Rings: The Fellowship of the Ring</p>
+    <div class="poster">
+      <!-- <p>The Lord of the Rings: The Fellowship of the Ring</p> -->
       <img src="https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg" alt="Movie poster - LOTR" style="width:100%">
-      <br>
+      <div class="container">
       <input type="checkbox" id="seen_movie_box" name="seen9" value="True">
       <label for="seen_movie_box">Do you know this movie?</label>
       <br>
       <label>No no!</label>
       <input type="range" id="slider" name="rating9" min="0" max="50" value="0">
       <label>Favorite!</label>
-      <br>
+      </div>
     </div>
 
-    <div class="column">
-      <p>Pulp Fiction</p>
+    <div class="poster">
+      <!-- <p>Pulp Fiction</p> -->
       <img src="https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg" alt="Movie poster - Pulp Fiction" style="width:100%">
-      <br>
+      <div class="container">
       <input type="checkbox" id="seen_movie_box" name="seen10" value="True">
       <label for="seen_movie_box">Do you know this movie?</label>
       <br>
       <label>No no!</label>
       <input type="range" id="slider" name="rating10" min="0" max="50" value="0">
       <label>Favorite!</label>
-      <br>
+      </div>
     </div>
 
   </div>
 
-  <input type="submit">
+  <input type="submit" value="Show me awesome movies!">
 
   </form>
 
