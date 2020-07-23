@@ -8,7 +8,6 @@ app = Flask(__name__)
 # __name__ is imply a reference to the current python script / module. All relative paths will be centered around this.
 
 @app.route('/')
-@app.route('/index')
 def index():
     return render_template('index.html', choices=MOVIES)
 
@@ -16,6 +15,12 @@ def index():
 def hello(name):
     name = name.upper()
     return render_template('hello.html', name_html=name)
+
+@app.route('/movie_details/<movie_id>')
+def movie_details(movie_id):
+    movie_id = int(movie_id)
+    results = postgres_extract(movie_id)
+    return render_template('movie_details.html', results=results)
 
 @app.route('/recommendation')
 def recommend():
