@@ -1,9 +1,27 @@
 {% extends "_base.html" %}
 {% block content %}
 
-    <p>Here is what you should watch:</p>
+    <div style= "margin: 50px auto;">
+    <h2>Here is what you should watch</h2>
+    </div>
+
+
     <ul>
       {% for m in movies %}
+
+      <div class="result">
+        <img src="https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg" alt="Movie poster - Shawshank Redemption" height="100%">
+        <div class="movie_details">
+          <h3>{{ m }}</h3>
+          <p>Year | Country <br>
+          Directed by Directors <br>
+          Starring actors</p>
+          <p><b>Storyline</b> <br> Storyline </p>
+          <p>Ratings</p>
+        </div>
+      </div>
+
+
       <li> {{ m }} </li>
       {% endfor %}
     </ul>
