@@ -130,3 +130,5 @@ dmypy.json
 
 # credentials
 credentials.py
+app/credentials.py
+app/recommendation_temp.html

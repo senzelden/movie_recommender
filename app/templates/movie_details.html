@@ -1,13 +1,17 @@
 {% extends "_base.html" %}
 {% block content %}
 
-    <p>About the movie "{{movie_name}}":</p>
+    <p>About the movie "{{results[1]}}":</p>
 
-    <p>Average rating: {{average_rating}} </p>
+    <p>Genres: {{results[2]}}</p>
 
-    <a href="https://www.imdb.com/title/tt{{imdb_id}}"> IMDb </a>
+    <p>Average rating: {{results[3]}} </p>
 
-    <p> {% print(imdb_info) %}</p>
+    <p>Total ratings: {{results[4]}} </p>
+
+    <a href="https://www.imdb.com/title/tt{{results[5]}}"> IMDb </a>
+
+<!--    <p> {% print(imdb_info) %}</p>-->
 
     <a href="http://www.omdbapi.com/?i=tt3896198&apikey={{APIKEY}}"> IMDb_info_json </a>
 
