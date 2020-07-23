@@ -25,6 +25,7 @@ def movie_details(movie_id):
 @app.route('/recommendation')
 def recommend():
 
+## IF USER MODEL CHOSE COSINE OR NMF
     user_input = dict(request.args)
     recommendations = nmf_recommender(user_input)
     for recommended_movie_id in recommendations.keys():

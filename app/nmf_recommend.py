@@ -2,18 +2,10 @@ import numpy as np
 import pandas as pd
 from joblib import load
 
-
 def nmf_recommender(user_input):
     """returns movie recommendations dictionary with movie titles and predicted ratings based on nmf model"""
-    # Read the data
-    movies = pd.read_csv("../data/ml-latest-small/movies.csv")
-    ratings = pd.read_csv("../data/ml-latest-small/ratings.csv")
-
-    # Create Rtrue
-    df = pd.merge(ratings, movies, how="left", on="movieId")
-    rtrue = df[["userId", "movieId", "rating"]].set_index("userId")
-    rtrue = rtrue.pivot(index=rtrue.index, columns="movieId").copy()
-    rtrue_fill = rtrue.fillna(2.5).copy()
+    # Load r_true filled data
+    rtrue_fill = pd.read_csv('../data/R_table.csv')
 
     # Load trained model
     m = load("../data/nmf_model.joblib")
