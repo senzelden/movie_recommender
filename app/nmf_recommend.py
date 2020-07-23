@@ -3,14 +3,14 @@ import pandas as pd
 from joblib import load
 
 
-def nmf_recommender(user_ratings=(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)):
+def nmf_recommender(user_input):
     """returns movie recommendations dictionary with movie titles and predicted ratings based on nmf model"""
     # Read the data
     movies = pd.read_csv("../data/ml-latest-small/movies.csv")
     ratings = pd.read_csv("../data/ml-latest-small/ratings.csv")
 
     # Create Rtrue
-    df = pd.merge(ratings, movies, "outer", on="movieId")
+    df = pd.merge(ratings, movies, how="left", on="movieId")
     rtrue = df[["userId", "movieId", "rating"]].set_index("userId")
     rtrue = rtrue.pivot(index=rtrue.index, columns="movieId").copy()
     rtrue_fill = rtrue.fillna(2.5).copy()
@@ -21,27 +21,28 @@ def nmf_recommender(user_ratings=(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)):
     # Q = m.transform(rtrue_fill)
 
     # Initiate new_user
-    new_user = [2.5] * 9742
+    new_user = [2.5] * 9724
 
     # Example ratings
-    standard_movies = [
-        442,
-        508,
-        153,
-        567,
-        311,
-        53,
-        251,
-        515,
-        25,
-        30,
+    landing_page_movies = [
+        2571,
+        356,
+        318,
+        2160,
+        899,
+        8464,
+        2959,
+        68954,
+        4993,
+        296,
     ]  # list of movie indices based on movie_id
     rtrue_fill.columns = rtrue_fill.columns.droplevel(0)
     indices = []
-    for film in standard_movies:
+    for film in landing_page_movies:
         indices.append(rtrue_fill.columns.get_loc(film))
     for i, indices_value in enumerate(indices):
-        new_user[indices_value] = user_ratings[i]
+        if f"seen{i + 1}" in user_input.keys():
+            new_user[indices_value] = user_input[f"rating{i + 1}"]
     new_user_final = np.array([new_user])
 
     # Get recommendations for user
@@ -53,7 +54,7 @@ def nmf_recommender(user_ratings=(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)):
     recommendations = new_result.iloc[0].sort_values(ascending=False)[:20].to_dict()
     clean_recommendations = {}
     for index, score in recommendations.items():
-        if index not in standard_movies:
+        if index not in landing_page_movies:
             clean_recommendations[
                 movies[movies.movieId == index].title.values[0]
             ] = round(score, 2)
@@ -61,4 +62,26 @@ def nmf_recommender(user_ratings=(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)):
 
 
 if __name__ == "__main__":
-    print(nmf_recommender())
+    example_input = {
+        "seen1": "True",
+        "rating1": "15",
+        "seen2": "True",
+        "rating2": "22",
+        "seen3": "True",
+        "rating3": "32",
+        "seen4": "True",
+        "rating4": "28",
+        "seen5": "True",
+        "rating5": "25",
+        "seen6": "True",
+        "rating6": "25",
+        "seen7": "True",
+        "rating7": "49",
+        "seen8": "True",
+        "rating8": "50",
+        "seen9": "True",
+        "rating9": "34",
+        "seen10": "True",
+        "rating10": "50",
+    }
+    print(nmf_recommender(example_input))
