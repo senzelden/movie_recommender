@@ -8,7 +8,9 @@
       {% for id in movies %}
 
       <div class="result">
-        <img src="{{ movies[id]['omdb_dict']['Poster'] }}" alt="Movie poster - {{ movies[id]['omdb_dict']['Title'] }}" height="100%">
+        <a href="https://www.imdb.com/title/{{ movies[id]['omdb_dict']['imdbID'] }}/">
+          <img src="{{ movies[id]['omdb_dict']['Poster'] }}" alt="Movie poster - {{ movies[id]['omdb_dict']['Title'] }}" height="100%">
+        </a>
         <div class="movie_details">
           <h3>{{ movies[id]['omdb_dict']['Title'] }}</h3>
           <p>{{ movies[id]['omdb_dict']['Genre'] }} <br>
