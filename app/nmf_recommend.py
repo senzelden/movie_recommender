@@ -55,9 +55,8 @@ def nmf_recommender(user_input):
     clean_recommendations = {}
     for index, score in recommendations.items():
         if index not in landing_page_movies:
-            clean_recommendations[
-                movies[movies.movieId == index].title.values[0]
-            ] = round(score, 2)
+            # movies[movies.movieId == index].title.values[0]
+            clean_recommendations[index] = {"nmf_score": round(score, 2)}
     return clean_recommendations
 
 

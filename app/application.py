@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 from recommender import random_recommend, MOVIES
 from nmf_recommend import nmf_recommender
+from extract_infos import omdb_extract, postgres_extract
+
 
 app = Flask(__name__)
 # __name__ is imply a reference to the current python script / module. All relative paths will be centered around this.
@@ -20,10 +22,11 @@ def recommend():
 
     user_input = dict(request.args)
     recommendations = nmf_recommender(user_input)
-    """Here is where you take the user input dictionary and pre-process it and use it for the recommendation f"""
+    for recommended_movie_id in recommendations.keys():
+        postgres_infos = postgres_extract(recommended_movie_id)
+        imdb_id = postgres_infos[-1]
+        recommendations[recommended_movie_id]['omdb_dict'] = omdb_extract(imdb_id)
 
-
-    movies = random_recommend(MOVIES, 5)
     return render_template('recommendation.html', movies=recommendations, input=user_input)
 
 @app.route('/recommendation_test')

@@ -13,15 +13,13 @@ def omdb_extract(imdb_id, info_type="Full"):
     info_type = default 'Full' (returns complete dict from omdb), 'Poster' (returns link), 'Ratings' (dict)
     """
     response = requests.get(f"http://www.omdbapi.com/?i=tt{imdb_id}&apikey={APIKEY}")
-    if response.status_code == 200:
-        movie_dict = response.json()
-        if info_type == "Poster":
-            return movie_dict["Poster"]
-        elif info_type == "Ratings":
-            return movie_dict["Ratings"]
+    movie_dict = response.json()
+    if info_type == "Poster":
+        return movie_dict["Poster"]
+    elif info_type == "Ratings":
+        return movie_dict["Ratings"]
     else:
-        movie_dict = {}
-    return movie_dict
+        return movie_dict
 
 
 def postgres_extract(movie_id):
@@ -31,8 +29,8 @@ def postgres_extract(movie_id):
     query = """
     SELECT movies.movie_id, movies.title, movies.genre, round(avg(ratings.rating)::numeric,2) AS avg_rating, count(ratings.rating) AS ratings_total, links.imdbid
 	FROM movies
-    	JOIN ratings ON movies.movie_id = ratings.movie_id
-	 		JOIN links ON movies.movie_id = links.movie_id
+    	LEFT JOIN ratings ON movies.movie_id = ratings.movie_id
+	 		LEFT JOIN links ON movies.movie_id = links.movie_id
 	WHERE movies.movie_id = :movie_id
     GROUP BY movies.movie_id, movies.title, links.imdbid
     """
@@ -42,4 +40,4 @@ def postgres_extract(movie_id):
 
 if __name__ == "__main__":
     print(omdb_extract(4073790))
-    print(postgres_extract(414))
+    print(postgres_extract(109633))
