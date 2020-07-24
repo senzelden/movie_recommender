@@ -34,7 +34,7 @@ def recommend():
         # recommendations = nmf_recommender(user_input)
         recommender = Recommender(user_input)
         recommendations = recommender.nmf()
-    if if method_[1] == "cosine":
+    if  method_[1] == "cosine":
         recommendations = cosine_similarity(user_input)
     for recommended_movie_id in recommendations.keys():
         postgres_infos = postgres_extract(recommended_movie_id)
