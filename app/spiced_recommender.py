@@ -25,8 +25,10 @@ class Recommender:
             4993,
             296,
         ]  # list of movie indices based on movie_id
+        movies_user_has_seen = []
         for i, user_movie_id in enumerate(user_input_ids):
             if f"seen{i + 1}" in self.user_input.keys():
+                movies_user_has_seen.append(user_movie_id)
                 current_rating = int(self.user_input[f"rating{i + 1}"])
                 if current_rating > 40:
                     multiplier = 10
@@ -39,7 +41,14 @@ class Recommender:
                 new_user_vector.loc[:, str(user_movie_id)] = current_rating * multiplier
         hidden_profile = m.transform(new_user_vector)
         rating_predictions = pd.DataFrame(np.dot(hidden_profile, m.components_), columns=movie_ids)
-        bool_mask = [False if int(column) in user_input_ids else True for column in movie_ids]
+        # Create a boolean mask to filter for already seen movies
+        seen_movies_indices = []
+        for movie_seen_id in movies_user_has_seen:
+            seen_movies_indices.append(np.where(movie_ids == str(movie_seen_id))[0][0])
+        bool_mask = [True] * len(movie_ids)
+        for index in seen_movies_indices:
+            bool_mask[index] = False
+        # bool_mask = [False if int(column) in movies_user_has_seen else True for column in movie_ids]
         movies_not_seen = rating_predictions.columns[bool_mask]
         movies_not_seen_df = rating_predictions[movies_not_seen].T
         sorted_movies = movies_not_seen_df.sort_values(by=0, ascending=False)[:3]
