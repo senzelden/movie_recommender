@@ -4,14 +4,13 @@ from joblib import load
 
 
 class Recommender:
-
     def __init__(self, user_input):
         self.user_input = user_input
 
     def nmf(self):
-        movie_ids = load('../data/movie_ids.joblib')
-        r_fill_mean = load('../data/R_fill_mean.joblib')
-        m = load('../data/nmf_model.joblib')
+        movie_ids = load("../data/movie_ids.joblib")
+        r_fill_mean = load("../data/R_fill_mean.joblib")
+        m = load("../data/nmf_model.joblib")
         new_user_vector = pd.DataFrame(r_fill_mean, index=movie_ids).transpose()
         user_input_ids = [
             2571,
@@ -40,7 +39,9 @@ class Recommender:
                     multiplier = 0.001
                 new_user_vector.loc[:, str(user_movie_id)] = current_rating * multiplier
         hidden_profile = m.transform(new_user_vector)
-        rating_predictions = pd.DataFrame(np.dot(hidden_profile, m.components_), columns=movie_ids)
+        rating_predictions = pd.DataFrame(
+            np.dot(hidden_profile, m.components_), columns=movie_ids
+        )
         # Create a boolean mask to filter for already seen movies
         seen_movies_indices = []
         for movie_seen_id in movies_user_has_seen:
@@ -54,32 +55,34 @@ class Recommender:
         sorted_movies = movies_not_seen_df.sort_values(by=0, ascending=False)[:3]
         recommendations = {}
         for i in range(3):
-            recommendations[int(sorted_movies.index[i])] = {"nmf_score": round(sorted_movies.values[i][0], 2)}
+            recommendations[int(sorted_movies.index[i])] = {
+                "nmf_score": round(sorted_movies.values[i][0], 2)
+            }
 
         return recommendations
 
 
 example_input = {
-        "seen1": "True",
-        "rating1": "15",
-        "seen2": "True",
-        "rating2": "22",
-        "seen3": "True",
-        "rating3": "32",
-        "seen4": "True",
-        "rating4": "28",
-        "seen5": "True",
-        "rating5": "25",
-        "seen6": "True",
-        "rating6": "25",
-        "seen7": "True",
-        "rating7": "49",
-        "seen8": "True",
-        "rating8": "50",
-        "seen9": "True",
-        "rating9": "34",
-        "seen10": "True",
-        "rating10": "50",
-    }
+    "seen1": "True",
+    "rating1": "15",
+    "seen2": "True",
+    "rating2": "22",
+    "seen3": "True",
+    "rating3": "32",
+    "seen4": "True",
+    "rating4": "28",
+    "seen5": "True",
+    "rating5": "25",
+    "seen6": "True",
+    "rating6": "25",
+    "seen7": "True",
+    "rating7": "49",
+    "seen8": "True",
+    "rating8": "50",
+    "seen9": "True",
+    "rating9": "34",
+    "seen10": "True",
+    "rating10": "50",
+}
 recommender = Recommender(example_input)
 print(recommender.nmf())
