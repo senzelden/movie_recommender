@@ -2,7 +2,7 @@ import pandas as pd
 from joblib import dump
 from sklearn.decomposition import NMF
 from sklearn.impute import KNNImputer
-
+import numpy as np
 def create_r(movies, ratings):
     """
     Creates a data frame with the information necessary for running an NMF model for movie recommendations
@@ -52,16 +52,34 @@ def train_model(n_features=20, fill_method = "KNNimputer", fill_value=2.5):
         r_true_fill = imputeKNN(r_true, n_features)
     else:
         r_true_fill = r_true.fillna(fill_value).copy()
+
     r_true_fill.to_csv('../data/R_table.csv', sep =',')
     m = NMF(n_features, max_iter=100000)
-    m.fit(r_true_fill)
-    dump(m, "../data/nmf_model.joblib")
-
+    #m.fit(r_true_fill)
+    #dump(m, "../data/nmf_model.joblib")
+def parse_rnew():
+        r_true_fill= pd.read_csv('../data/R_table.csv')
+        list_ = list(r_true_fill.iloc[0])
+        movieId = list_[1:]
+        new_list = []
+        for item in movieId:
+            new_list.append(int(item))
+        movieId = new_list
+        userId = r_true_fill.iloc[:,0][2:]
+        r_true_fill = r_true_fill.drop([0])
+        r_true_fill = r_true_fill.drop([1])
+        r_true_fill = r_true_fill.drop(r_true_fill.columns[0], axis=1)
+        r_true_fill['userId'] = userId
+        r_true_fill = r_true_fill.set_index('userId')
+        r_true_fill.columns = movieId
+        r_true_fill.to_csv('../data/R_table_2.csv', sep =',')
 
 # Load the data
 movies = pd.read_csv("../data/ml-latest-small/movies.csv")
 ratings = pd.read_csv("../data/ml-latest-small/ratings.csv")
 
+
 if __name__ == "__main__":
     r_true = create_r(movies, ratings)
     train_model()
+    parse_rnew()
