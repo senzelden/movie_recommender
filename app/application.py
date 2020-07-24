@@ -25,6 +25,7 @@ def movie_details(movie_id):
     return render_template("movie_details.html", results=results)
 
 
+
 @app.route("/recommendation")
 def recommend():
     user_input = dict(request.args)

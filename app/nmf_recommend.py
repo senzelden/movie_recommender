@@ -3,10 +3,11 @@ import pandas as pd
 from sklearn.impute import KNNImputer
 from joblib import load
 
-
 def nmf_recommender(user_input):
     """returns movie recommendations dictionary with movie titles and predicted ratings based on nmf model"""
-    # Read the data
+    # Load r_true filled data
+    # rtrue_fill = pd.read_csv('../data/R_table.csv')
+# Read the data
     movies = pd.read_csv("../data/ml-latest-small/movies.csv")
     ratings = pd.read_csv("../data/ml-latest-small/ratings.csv")
 
@@ -14,6 +15,7 @@ def nmf_recommender(user_input):
     df = pd.merge(ratings, movies, how="left", on="movieId")
     rtrue = df[["userId", "movieId", "rating"]].set_index("userId")
     rtrue = rtrue.pivot(index=rtrue.index, columns="movieId").copy()
+    rtrue_fill = rtrue.fillna(2.5).copy()
     imputer = KNNImputer(n_neighbors=5)
     rtrue_fill = pd.DataFrame(imputer.fit_transform(rtrue), columns=rtrue.columns, index=rtrue.index)
 
