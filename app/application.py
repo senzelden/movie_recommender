@@ -2,19 +2,18 @@ from flask import Flask, render_template, request
 from nmf_recommend import nmf_recommender
 from spiced_recommender import Recommender
 from extract_infos import omdb_extract, postgres_extract
-<<<<<<< HEAD
-<<<<<<< HEAD
-from cosine import cosine_similarity
-=======
-from line_graph import line
-
->>>>>>> 157d991d55db90fce2357e6106698aae5be2f0f9
-=======
 
 from cosine import cosine_similarity
+
 from line_graph import line
 
->>>>>>> e46106421412a326f4b4335fa55abbfe79fbb14b
+
+
+
+from cosine import cosine_similarity
+from line_graph import line
+
+
 
 app = Flask(__name__)
 
