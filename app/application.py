@@ -2,7 +2,12 @@ from flask import Flask, render_template, request
 from nmf_recommend import nmf_recommender
 from spiced_recommender import Recommender
 from extract_infos import omdb_extract, postgres_extract
+<<<<<<< HEAD
 from cosine import cosine_similarity
+=======
+from line_graph import line
+
+>>>>>>> 157d991d55db90fce2357e6106698aae5be2f0f9
 
 app = Flask(__name__)
 
@@ -23,6 +28,14 @@ def movie_details(movie_id):
     movie_id = int(movie_id)
     results = postgres_extract(movie_id)
     return render_template("movie_details.html", results=results)
+
+
+@app.route("/graph/<avg_or_total>/<movie_id>")
+def movie_graph(avg_or_total, movie_id):
+    movie_id = int(movie_id)
+    title = postgres_extract(movie_id)[1]
+    line(movie_id, title, avg_or_total)
+    return render_template("graph.html")
 
 
 
