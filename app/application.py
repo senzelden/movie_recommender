@@ -29,12 +29,12 @@ def movie_details(movie_id):
 @app.route("/recommendation")
 def recommend():
     user_input = dict(request.args)
-    method_ = user_input.keys()[-1]
-    if method_[1] == "NMF":
+    method_ =  list(user_input.values())[-1]
+    if method_ == "NMF":
         # recommendations = nmf_recommender(user_input)
         recommender = Recommender(user_input)
         recommendations = recommender.nmf()
-    if  method_[1] == "cosine":
+    if  method_ == "Cosine":
         recommendations = cosine_similarity(user_input)
     for recommended_movie_id in recommendations.keys():
         postgres_infos = postgres_extract(recommended_movie_id)
