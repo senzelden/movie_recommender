@@ -118,7 +118,7 @@ class Recommender:
                 .sort_values("rating", ascending=False)
                 .head(3)
             )
-        elif genre_filter == 'top2_genres':
+        else:
             top3_rated_by_user = new_user_vector.transpose().nlargest(3, 0).index
             top3_rated_by_user_genres = movies_titles_genres.filter(top3_rated_by_user, axis=0).genres.str.split(
                 "|").values
@@ -138,6 +138,8 @@ class Recommender:
                 possible_recommendations.genres.str.contains(top2_genres, regex=False)].sort_values('rating',
                                                                                                     ascending=False).head(
                 50)
+        if len(recommendations_df) < 3:
+            recommendations_df = possible_recommendations.sort_values('rating', ascending=False).head(3)
         recommendations = {}
         for i in range(3):
             top_movie_id = recommendations_df.index[i]
