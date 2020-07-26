@@ -63,7 +63,7 @@ class Recommender:
         return recommendations
 
 
-    def cosine(self):
+    def cosine(self, genre_filter='top2_genres'):
         """
         It returns a cosine transformed data frame with pairwise sililarity in ratings between users
 
@@ -107,16 +107,37 @@ class Recommender:
         movies_titles_genres.set_index("movieId", inplace=True)
         possible_recommendations = movies_titles_genres.filter(best_preds, axis=0)
         highest_rated_by_user = new_user_vector.transpose().idxmax().to_list()
-        all_genres = movies_titles_genres.filter(
-            highest_rated_by_user, axis=0
-        ).genres.values[0]
-        recommendations_df = (
-            possible_recommendations[
-                possible_recommendations.genres.str.contains(all_genres, regex=True)
-            ]
-            .sort_values("rating", ascending=False)
-            .head(3)
-        )
+        if genre_filter == 'any_of_all_genres':
+            all_genres = movies_titles_genres.filter(
+                highest_rated_by_user, axis=0
+            ).genres.values[0]
+            recommendations_df = (
+                possible_recommendations[
+                    possible_recommendations.genres.str.contains(all_genres, regex=True)
+                ]
+                .sort_values("rating", ascending=False)
+                .head(3)
+            )
+        elif genre_filter == 'top2_genres':
+            top3_rated_by_user = new_user_vector.transpose().nlargest(3, 0).index
+            top3_rated_by_user_genres = movies_titles_genres.filter(top3_rated_by_user, axis=0).genres.str.split(
+                "|").values
+            most_important_genres = {}
+            for genre_list in top3_rated_by_user_genres:
+                for genre in genre_list:
+                    if genre not in most_important_genres.keys():
+                        most_important_genres[genre] = 1
+                    else:
+                        most_important_genres[genre] += 1
+            print(most_important_genres)
+            sorted_genres = {k: v for k, v in
+                             sorted(most_important_genres.items(), key=(lambda item: item[1]), reverse=True)}
+            top2_genres = sorted(list(sorted_genres.keys())[:2])
+            top2_genres = "|".join(top2_genres)
+            recommendations_df = possible_recommendations[
+                possible_recommendations.genres.str.contains(top2_genres, regex=False)].sort_values('rating',
+                                                                                                    ascending=False).head(
+                50)
         recommendations = {}
         for i in range(3):
             top_movie_id = recommendations_df.index[i]
