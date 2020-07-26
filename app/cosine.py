@@ -16,9 +16,8 @@ def cosine_similarity(user_input):
 
     rtrue_fill = pd.read_csv("../data/R_table_2.csv", index_col = 0)
     rtrue_fill = rtrue_fill.tail(50) # ONly consider 50 users for imputtin KNNN
-    movie_ids = rtrue_fill.columns
     users = rtrue_fill.index
-    user_input_ids = [
+    landing_page_movies = [
         2571,
         356,
         318,
@@ -32,42 +31,38 @@ def cosine_similarity(user_input):
     ]
     indices = []
     new_user = {}
-    for film in user_input_ids:
-        indices.append(rtrue_fill.columns.get_loc(str(film)))
+    for film in landing_page_movies:
+        index_val = rtrue_fill.columns.get_loc(str(film))
+        indices.append(index_val)
     for i, indices_value in enumerate(indices):
-         if f"seen{i + 1}" in user_input.keys():
-            new_user[indices_value] = user_input[f"rating{i + 1}"]
-    R_new_user = rtrue_fill.append(pd.DataFrame(new_user, index=['new_user']))
-    #print("This is R new user", R_new_user) # I should Impute here
-    new_user_filled = imputeKNN(R_new_user, 20)
-    movie_filter = R_new_user.isna().any().values
+        if user_input[f"seen{i + 1}"] == "True":
+            new_user[str(indices_value)] = user_input[f"rating{i + 1}"]
+    # print(new_user)
+    R_new_user = pd.DataFrame(new_user, index=['new_user'])
+    R_new_user.columns = [str(i) for i in landing_page_movies]
+    R_new_user = rtrue_fill.append(R_new_user)
     updated_users = R_new_user.index
-    print("THIS IS MOVIE FILTER:", movie_filter.shape)
-#    THIS IS MOVIE FILTER: (9734,)
-#    THIS IS RATING PREDICTIONS : (9724, 1)
+    new_user_filled = imputeKNN(R_new_user, 20)
 
-    similarities_new_user = pd.DataFrame(cos_similarity(new_user_filled.transpose()[movie_filter].transpose()), index=updated_users, columns=updated_users)
+    movie_filter = ~R_new_user.isna().any().values
+    similarities_new_user = cos_similarity(new_user_filled.transpose()[movie_filter].transpose())
+
+    similarities_new_user = pd.DataFrame(similarities_new_user, index=updated_users, columns=updated_users)
+
     similarities_new_user = similarities_new_user['new_user'][~(similarities_new_user.index=='new_user')]
-    #print('THIS IS SIMILARITIES:', similarities_new_user)
     rating_predictions = pd.DataFrame(\
-                           np.dot(similarities_new_user, rtrue_fill)
-                           /similarities_new_user.sum(), \
-                           index=rtrue_fill.columns)
-    print('THIS IS RATING PREDICTIONS :', rating_predictions)
-    #print(user_input_ids)
+                            np.dot(similarities_new_user, rtrue_fill)
+                            /similarities_new_user.sum(), \
+                            index=rtrue_fill.columns)
 
-    bool_mask = [False if str(column) in user_input_ids else True for column in movie_ids]
-    print(rating_predictions[bool_mask])
-    movies_not_seen = rating_predictions[bool_mask]
-    movies_not_seen_df = rating_predictions[movies_not_seen].T
+    sorted_predictions = rating_predictions[~movie_filter].sort_values(by=0, ascending=False)
+    top_3_predictions = sorted_predictions[0:3]
+    # print('This is the shepe of recommendations :', top_3_predictions.shape)
+    indexes = list(top_3_predictions.index)
     recommendations = {}
     for i in range(3):
-         recommendations[int(sorted_movies.index[i])] = {"cosine_score": round(sorted_movies.values[i][0], 2)}
-
-    #recommendations = rating_predictions[~movie_filter].sort_values(by=0, ascending=False)
-    #recommendations = recommendations[0:3]
-    print(recommendations)
-    #return suggestions
+        recommendations[int(top_3_predictions.index[i])] = {"Cosine": round(top_3_predictions.values[i][0], 2)}
+    return recommendations
 
 if __name__ == "__main__":
     example_input = {

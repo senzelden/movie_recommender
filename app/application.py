@@ -4,7 +4,15 @@ from spiced_recommender import Recommender
 from extract_infos import omdb_extract, postgres_extract
 
 from cosine import cosine_similarity
+
 from line_graph import line
+
+
+
+
+from cosine import cosine_similarity
+from line_graph import line
+
 
 
 app = Flask(__name__)
@@ -41,12 +49,11 @@ def movie_graph(avg_or_total, movie_id):
 def recommend():
     user_input = dict(request.args)
     method_ =  list(user_input.values())[-1]
+    recommender = Recommender(user_input)
     if method_ == "NMF":
-        # recommendations = nmf_recommender(user_input)
-        recommender = Recommender(user_input)
         recommendations = recommender.nmf()
-    if  method_ == "Cosine":
-        recommendations = cosine_similarity(user_input)
+    if method_ == "Cosine":
+        recommendations = recommender.cosine()
     for recommended_movie_id in recommendations.keys():
         postgres_infos = postgres_extract(recommended_movie_id)
         imdb_id = postgres_infos[-1]
