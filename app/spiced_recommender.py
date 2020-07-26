@@ -7,15 +7,7 @@ from joblib import load
 class Recommender:
     def __init__(self, user_input):
         self.user_input = user_input
-        self.user_input_ids = [
-
-    def nmf(self):
-        movie_ids = load("../data/movie_ids.joblib")
-        r_fill_mean = load("../data/R_fill_mean.joblib")
-        m = load("../data/nmf_model.joblib")
-        new_user_vector = pd.DataFrame(r_fill_mean, index=movie_ids).transpose()
-        user_input_ids = [
-            2571,
+        self.user_input_ids = [2571,
             356,
             318,
             2160,
@@ -26,6 +18,7 @@ class Recommender:
             4993,
             296,
         ]  # list of movie indices based on movie_id
+
 
     def nmf(self):
         movie_ids = load("../data/movie_ids.joblib")
