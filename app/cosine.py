@@ -37,7 +37,7 @@ def cosine_similarity(user_input):
     for i, indices_value in enumerate(indices):
         if user_input[f"seen{i + 1}"] == "True":
             new_user[str(indices_value)] = user_input[f"rating{i + 1}"]
-    print(new_user)
+    # print(new_user)
     R_new_user = pd.DataFrame(new_user, index=['new_user'])
     R_new_user.columns = [str(i) for i in landing_page_movies]
     R_new_user = rtrue_fill.append(R_new_user)
@@ -55,16 +55,14 @@ def cosine_similarity(user_input):
                             /similarities_new_user.sum(), \
                             index=rtrue_fill.columns)
 
-    recommendations = rating_predictions[~movie_filter].sort_values(by=0, ascending=False)
-    recommendations = recommendations[0:3]
-    print('This is the sahepe of recommendations :', recommendations.shape)
-    indexes = list(recommendations.index)
-    indexes = [int(i) for i in indexes]
-    print(indexes)
+    sorted_predictions = rating_predictions[~movie_filter].sort_values(by=0, ascending=False)
+    top_3_predictions = sorted_predictions[0:3]
+    # print('This is the shepe of recommendations :', top_3_predictions.shape)
+    indexes = list(top_3_predictions.index)
+    recommendations = {}
     for i in range(3):
-        print(indexes[i])
-        recommendations[int(recommendations.index[i])] = {"Cosine": values[i]}
-    print(recommendations)
+        recommendations[int(top_3_predictions.index[i])] = {"Cosine": round(top_3_predictions.values[i][0], 2)}
+    return recommendations
 
 if __name__ == "__main__":
     example_input = {
