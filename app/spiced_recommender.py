@@ -8,6 +8,13 @@ class Recommender:
     def __init__(self, user_input):
         self.user_input = user_input
         self.user_input_ids = [
+
+    def nmf(self):
+        movie_ids = load("../data/movie_ids.joblib")
+        r_fill_mean = load("../data/R_fill_mean.joblib")
+        m = load("../data/nmf_model.joblib")
+        new_user_vector = pd.DataFrame(r_fill_mean, index=movie_ids).transpose()
+        user_input_ids = [
             2571,
             356,
             318,
@@ -59,8 +66,9 @@ class Recommender:
             recommendations[int(sorted_movies.index[i])] = {
                 "nmf_score": round(sorted_movies.values[i][0], 2)
             }
-
+          
         return recommendations
+
 
     def cosine(self):
         """
@@ -151,3 +159,4 @@ if __name__ == "__main__":
     recommender = Recommender(example_input)
     print(recommender.nmf())
     print(recommender.cosine())
+
