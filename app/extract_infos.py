@@ -1,6 +1,7 @@
 import requests
 from credentials import APIKEY, PG_PASSWORD, PG_USER, PG_URL
 from sqlalchemy import create_engine, text
+import pandas as pd
 
 
 def omdb_extract(imdb_id, info_type="Full"):
@@ -24,18 +25,20 @@ def omdb_extract(imdb_id, info_type="Full"):
 
 def postgres_extract(movie_id):
     """returns tuple (movie_id, title, genre, avg_rating, total_ratings, imdb_id) from postgres"""
-    conns = f"postgres://{PG_USER}:{PG_PASSWORD}@{PG_URL}/movie_recommender"
-    db = create_engine(conns, encoding="UTF-8", echo=False)
-    query = """
-    SELECT movies.movie_id, movies.title, movies.genre, round(avg(ratings.rating)::numeric,2) AS avg_rating, count(ratings.rating) AS ratings_total, links.imdbid
-	FROM movies
-    	LEFT JOIN ratings ON movies.movie_id = ratings.movie_id
-	 		LEFT JOIN links ON movies.movie_id = links.movie_id
-	WHERE movies.movie_id = :movie_id
-    GROUP BY movies.movie_id, movies.title, links.imdbid
-    """
-    row = db.execute(text(query), {"movie_id": str(movie_id)}).fetchone()
-    return row
+    links = pd.read_csv("../data/ml-latest-small/links.csv", converters={'imdbId': lambda x: str(x)})
+    return links[links.movieId == int(movie_id)].imdbId.values[0]
+    # conns = f"postgres://{PG_USER}:{PG_PASSWORD}@{PG_URL}/movie_recommender"
+    # db = create_engine(conns, encoding="UTF-8", echo=False)
+    # query = """
+    # SELECT movies.movie_id, movies.title, movies.genre, round(avg(ratings.rating)::numeric,2) AS avg_rating, count(ratings.rating) AS ratings_total, links.imdbid
+	# FROM movies
+    # 	LEFT JOIN ratings ON movies.movie_id = ratings.movie_id
+	#  		LEFT JOIN links ON movies.movie_id = links.movie_id
+	# WHERE movies.movie_id = :movie_id
+    # GROUP BY movies.movie_id, movies.title, links.imdbid
+    # """
+    # row = db.execute(text(query), {"movie_id": str(movie_id)}).fetchone()
+    # return row
 
 
 if __name__ == "__main__":

@@ -56,7 +56,7 @@ def recommend():
         recommendations = recommender.cosine()
     for recommended_movie_id in recommendations.keys():
         postgres_infos = postgres_extract(recommended_movie_id)
-        imdb_id = postgres_infos[-1]
+        imdb_id = postgres_infos
         recommendations[recommended_movie_id]["omdb_dict"] = omdb_extract(imdb_id)
     return render_template(
         "recommendation.html", movies=recommendations, input=user_input
