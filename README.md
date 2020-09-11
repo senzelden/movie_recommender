@@ -1,7 +1,5 @@
 # Project: Movie Recommender
 
-![movie_recommender](data/movie_recommender.gif)
-
 ![movie_recommender](data/images/movie_recommender_2019.gif)
 
 ### Description
