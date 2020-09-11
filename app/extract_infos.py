@@ -1,7 +1,9 @@
 import requests
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
 from credentials import APIKEY, PG_PASSWORD, PG_USER, PG_URL
-from sqlalchemy import create_engine, text
-import pandas as pd
 
 
 def omdb_extract(imdb_id, info_type="Full"):
@@ -13,6 +15,8 @@ def omdb_extract(imdb_id, info_type="Full"):
     imdb_id = id from imdb without prefix 'tt'
     info_type = default 'Full' (returns complete dict from omdb), 'Poster' (returns link), 'Ratings' (dict)
     """
+    if len(str(imdb_id)) < 7:
+        imdb_id = (7 - len(str(imdb_id))) * "0" + str(imdb_id)
     response = requests.get(f"http://www.omdbapi.com/?i=tt{imdb_id}&apikey={APIKEY}")
     movie_dict = response.json()
     if info_type == "Poster":
@@ -23,22 +27,31 @@ def omdb_extract(imdb_id, info_type="Full"):
         return movie_dict
 
 
-def postgres_extract(movie_id):
-    """returns tuple (movie_id, title, genre, avg_rating, total_ratings, imdb_id) from postgres"""
-    links = pd.read_csv("../data/ml-latest-small/links.csv", converters={'imdbId': lambda x: str(x)})
-    return links[links.movieId == int(movie_id)].imdbId.values[0]
-    # conns = f"postgres://{PG_USER}:{PG_PASSWORD}@{PG_URL}/movie_recommender"
-    # db = create_engine(conns, encoding="UTF-8", echo=False)
-    # query = """
-    # SELECT movies.movie_id, movies.title, movies.genre, round(avg(ratings.rating)::numeric,2) AS avg_rating, count(ratings.rating) AS ratings_total, links.imdbid
-	# FROM movies
-    # 	LEFT JOIN ratings ON movies.movie_id = ratings.movie_id
-	#  		LEFT JOIN links ON movies.movie_id = links.movie_id
-	# WHERE movies.movie_id = :movie_id
-    # GROUP BY movies.movie_id, movies.title, links.imdbid
-    # """
-    # row = db.execute(text(query), {"movie_id": str(movie_id)}).fetchone()
-    # return row
+def postgres_extract(movie_ids):
+    """returns list of imdb_ids from postgres"""
+    DATABASE_USER = PG_USER
+    DATABASE_PASSWORD = PG_PASSWORD
+    DATABASE_HOST = PG_URL
+    DATABASE_PORT = "5432"
+    DATABASE_DB_NAME = "movielens"
+
+    conn = f"postgres://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_DB_NAME}"
+    engine = create_engine(conn, encoding="latin1", echo=True)
+    Base = declarative_base(bind=engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    class Links(Base):
+        __tablename__ = "links"
+        __table_args__ = {"autoload": True}
+
+    result = session.query(Links).filter(Links.movie_id.in_(movie_ids)).all()
+
+    imdb_ids_dict = {}
+    for r in result:
+        imdb_ids_dict[r.movie_id] = r.imdb_id
+
+    return imdb_ids_dict
 
 
 if __name__ == "__main__":

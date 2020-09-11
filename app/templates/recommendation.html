@@ -26,13 +26,16 @@
             <p style="font-size: 24px; color: #c5c6c7"> {{ movies[id]['omdb_dict']['Ratings'][i]['Value'] }} </p>
           </div>
           {% endfor %}
-        <<br>
-
+          <<br>
         </div>
       </div>
 
       {% endfor %}
 
     <!-- <p> {{ movies }} </p> -->
+
+    <div class="center">
+      <button onclick="window.location.href = '/';">Back</button>
+    </div>
 
 {% endblock %}
