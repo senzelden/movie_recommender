@@ -3,8 +3,6 @@ from flask import Flask, render_template, request
 from recommender import Recommender
 from recommender_with_spark import sparkRecommender
 from extract_infos import omdb_extract, postgres_extract
-from line_graph import line
-
 
 
 app = Flask(__name__)
@@ -13,23 +11,6 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template("index.html")
-
-
-@app.route("/graph/<avg_or_total>/<movie_id>")
-def movie_graph(avg_or_total, movie_id):
-    movie_id = int(movie_id)
-    title = postgres_extract(movie_id)[1]
-    line(movie_id, title, avg_or_total)
-    return render_template("graph.html")
-
-
-@app.route("/graph/<avg_or_total>/<movie_id>")
-def movie_graph(avg_or_total, movie_id):
-    movie_id = int(movie_id)
-    title = postgres_extract(movie_id)[1]
-    line(movie_id, title, avg_or_total)
-    return render_template("graph.html")
-
 
 
 @app.route("/recommendation")
@@ -44,7 +25,6 @@ def recommend():
         recommendations = recommender.cosine()
     else:
         recommendations = spark_recommender.als()
-    print(recommendations)
     imdb_ids_dict = postgres_extract(recommendations.keys())
     for movie_id, imdb_id in imdb_ids_dict.items():
         recommendations[movie_id]["omdb_dict"] = omdb_extract(imdb_id)

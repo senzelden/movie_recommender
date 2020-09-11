@@ -6,7 +6,6 @@ import dash_html_components as html
 
 import pandas as pd
 import plotly.graph_objects as go
-from sqlalchemy import create_engine
 
 from credentials import PG_USER, PG_PASSWORD, PG_URL
 
@@ -20,10 +19,9 @@ DATABASE_HOST = PG_URL
 DATABASE_PORT = "5432"
 DATABASE_DB_NAME = "movielens"
 
-conns = f"postgres://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_DB_NAME}"
-engine = create_engine(conns, encoding='latin1', echo=True)
-movies = pd.read_sql_table('movies', conns)
-ratings = pd.read_sql_table('ratings_2019_w_timestamp', conns)
+conn = f"postgres://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_DB_NAME}"
+movies = pd.read_sql_table('movies', conn)
+ratings = pd.read_sql_table('ratings_2019_w_timestamp', conn)
 
 movies_ratings = pd.merge(movies, ratings, "left", on="movie_id")
 movies_ratings.rating_timestamp = pd.to_datetime(movies_ratings.rating_timestamp).copy()

@@ -42,6 +42,7 @@ def postgres_extract(movie_ids):
     session = Session()
 
     class Links(Base):
+        """loaded table from Postgres database"""
         __tablename__ = "links"
         __table_args__ = {"autoload": True}
 
