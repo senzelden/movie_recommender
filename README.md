@@ -4,7 +4,7 @@
 
 ### Description
 
-This project implements a movie recommender using a variety of recommendation systems (NMF, ALS and Cosine Similarity). 
+This project implements a movie recommender using a variety of recommendation systems (NMF, ALS and Cosine Similarity).  
 For this the popular [Movielens](https://grouplens.org/datasets/movielens/) dataset (largest 25M version, reduced to 1.1M ratings from 2019) is used.  
 [Flask](https://flask.palletsprojects.com/en/1.1.x/) is used to build a web app that gives users personalized recommendations and basic movie infos.  
 [Apache Spark](https://spark.apache.org/), a cluster-computing framework for very large amounts of data, is used to run the ALS (Alternating Least Squares) model, NMF and Cosine Similarity are implemented with [Scikit-Learn](https://scikit-learn.org/stable/).  
@@ -18,7 +18,7 @@ Become more familiar with recommendation systems and big data management.
 
 ### Background
 
-Companies like Netflix or Amazon prominently use recommendation systems to generate more user-oriented suggestions. 
+Companies like Netflix or Amazon prominently use recommendation systems to generate more user-oriented suggestions.  
 [Non-Negative Matrix Factorization](https://en.wikipedia.org/wiki/Non-negative_matrix_factorization), [Collaborative Filtering](https://en.wikipedia.org/wiki/Collaborative_filtering) are two techniques used by recommender systems that are implemented in this project.
 
 ### Data
@@ -59,7 +59,8 @@ ORDER BY
 ### Movie Selection
 
 Movies on the landing page were selected based on how popular they were in 2019, how representative they are for a certain genre and how polarising they are among viewers.  
-_Planet Earth II_ for example received the highest average score among all movies that were rated at least 250 times. _Twilight_ on the other hand is the most polarising movie of 2019.
+_Planet Earth II_ for example received the highest average score among all movies that were rated at least 250 times.  
+_Twilight_ on the other hand is the most polarising movie of 2019.
 
 ### Notebooks
 

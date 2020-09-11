@@ -5,6 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity as cos_similarity
 
 
 class Recommender:
+    """recommends movies based on NMF or cosine similarity"""
     def __init__(self, user_input):
         self.user_input = user_input
         self.user_input_ids = [

@@ -19,6 +19,7 @@ from pyspark.ml.recommendation import ALS
 
 
 class sparkRecommender:
+    """recommends movies based on ALS with Apache Spark in the background"""
     def __init__(self, user_input):
         self.user_input = user_input
         self.user_input_ids = [
