@@ -64,8 +64,8 @@ _Twilight_ on the other hand is the most polarising movie of 2019.
 
 ### Notebooks
 
-An exploratory data analysis is performed with pandas [here](https://github.com/senzelden/recommender/blob/dennis/scripts/movielens_eda_dennis.ipynb).  
-An additional analysis is done with pyspark [here](https://github.com/senzelden/recommender/blob/dennis/scripts/movielens_pyspark.ipynb).
+An exploratory data analysis is performed with pandas [here](https://github.com/senzelden/movie_recommender/blob/master/scripts/movielens_eda_dennis.ipynb).  
+An additional analysis is done with pyspark [here](https://github.com/senzelden/movie_recommender/blob/master/scripts/movielens_pyspark.ipynb).
 
 ![reviews_by_users](data/images/reviews_by_users.png)
 ![movies_by_genre](data/images/movies_by_genre.png)
